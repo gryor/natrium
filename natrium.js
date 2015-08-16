@@ -184,17 +184,17 @@ na.box_keypair().then(function (alice) {
 		return na.box_key(alice.secret, bob.public).then(function (keya) {
 			log({keya});
 
-		return na.box_key(bob.secret, alice.public).then(function (keyb) {
-			log({keyb});
+			return na.box_key(bob.secret, alice.public).then(function (keyb) {
+				log({keyb});
 
-			return na.random(4).then(function (message) {
-				return na.encrypt(keya, message).then(function (encrypted) {
-					log({message, encrypted});
+				return na.random(4).then(function (message) {
+					return na.encrypt(keya, message).then(function (encrypted) {
+						log({message, encrypted});
 
-					return na.decrypt(keyb, encrypted.nonce, encrypted.cipher).then(function (decrypted) {
-						log({message, encrypted, decrypted});
+						return na.decrypt(keyb, encrypted.nonce, encrypted.cipher).then(function (decrypted) {
+							log({message, encrypted, decrypted});
+						});
 					});
-				});
 				});
 			});
 		});
