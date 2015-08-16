@@ -2,6 +2,7 @@
 #include "natrium.h"
 #include <sodium.h>
 
+
 namespace natrium {
 class Random : public Nan::AsyncWorker
 {
