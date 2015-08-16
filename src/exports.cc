@@ -11,10 +11,12 @@ NAN_MODULE_INIT(Init) {
 	EXPORT(random_seed);
 	EXPORT(sign_keypair);
 	EXPORT(sign);
+	EXPORT(verify);
 
+	EXPORT_INT(size_seed, crypto_sign_SEEDBYTES);
 	EXPORT_INT(size_sign_public, crypto_sign_PUBLICKEYBYTES);
 	EXPORT_INT(size_sign_secret, crypto_sign_SECRETKEYBYTES);
-	EXPORT_INT(size_seed, crypto_sign_SEEDBYTES);
+	EXPORT_INT(size_sign, crypto_sign_BYTES);
 }
 
 NODE_MODULE(natrium, Init)

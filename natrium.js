@@ -5,7 +5,8 @@ export class Natrium {
 	size = {
 		public: natrium.size_sign_public,
 		secret: natrium.size_sign_secret,
-		seed: natrium.size_seed
+		seed: natrium.size_seed,
+		signature: natrium.size_sign
 	}
 
 	random(size) {
@@ -25,7 +26,7 @@ export class Natrium {
 
 	sign_keypair(seed) {
 		if(!Buffer.isBuffer(seed) || seed.length != this.size.seed)
-			return Promise.reject(new Error('seed should be a Buffer of size '));
+			return Promise.reject(new Error('seed should be a Buffer of size ' + this.size.seed));
 
 		return new Promise(function(success, fail) {
 			natrium.sign_keypair(seed, function (error, pk, sk) {
@@ -42,8 +43,8 @@ export class Natrium {
 	}
 
 	sign(secret, message) {
-		if(!Buffer.isBuffer(secret) || secret.length != 64)
-			return Promise.reject(new Error('secret should be a Buffer of size 64'));
+		if(!Buffer.isBuffer(secret) || secret.length != this.size.secret)
+			return Promise.reject(new Error('secret should be a Buffer of size ' + this.size.secret));
 
 		if(!Buffer.isBuffer(message) || message.length === 0)
 			return Promise.reject(new Error('message should be a Buffer of a size greater than 0'));
@@ -57,6 +58,26 @@ export class Natrium {
 			});
 		});
 	}
+
+	verify(pk, signature, message) {
+		if(!Buffer.isBuffer(pk) || pk.length != this.size.public)
+			return Promise.reject(new Error('secret should be a Buffer of size ' + this.size.public));
+
+		if(!Buffer.isBuffer(signature) || signature.length === 0)
+			return Promise.reject(new Error('signature should be a Buffer of a size greater than 0'));
+
+		if(!Buffer.isBuffer(message) || message.length === 0)
+			return Promise.reject(new Error('message should be a Buffer of a size greater than 0'));
+
+		return new Promise(function(success, fail) {
+			natrium.verify(pk, signature, message, function (error) {
+				if(error)
+					return fail(error);
+
+				success();
+			});
+		});
+	}
 }
 
 let na = new Natrium();
@@ -65,9 +86,10 @@ export default na;
 let log = console.log;
 
 na.new_sign_keypair().then(function (key) {
-	return na.random(4).then(function (random) {
-		return na.sign(key.secret, random).then(function (sig) {
-			log({random, sig});
+	return na.random(4).then(function (message) {
+		return na.sign(key.secret, message).then(function (signature) {
+			log({message, signature});
+			return na.verify(key.public, signature, message).then(() => log('Verified!'));
 		});
 	});
 }).catch(console.error);

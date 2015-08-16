@@ -23,6 +23,7 @@ NAN_METHOD(random);
 NAN_METHOD(random_seed);
 NAN_METHOD(sign_keypair);
 NAN_METHOD(sign);
+NAN_METHOD(verify);
 }
 
 
