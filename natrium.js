@@ -137,9 +137,9 @@ na.box_keypair().then(function (alice) {
 		return na.box_key(alice.secret, bob.public).then(function (key) {
 			log({key});
 		}).then(function () {
-		return na.box_key(bob.secret, alice.public).then(function (key) {
-			log({key});
-		});
+			return na.box_key(bob.secret, alice.public).then(function (key) {
+				log({key});
+			});
 		});
 	});
 }).catch(log);
