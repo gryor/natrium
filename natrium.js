@@ -1,12 +1,17 @@
 import natrium from './build/debug.node';
+import debug from 'debug';
 
+let log = debug('natrium');
 
 export class Natrium {
 	size = {
 		public: natrium.size_sign_public,
 		secret: natrium.size_sign_secret,
 		seed: natrium.size_seed,
-		signature: natrium.size_sign
+		signature: natrium.size_sign,
+		box_public: natrium.size_box_public,
+		box_secret: natrium.size_box_secret,
+		box_key: natrium.size_box_keyt
 	}
 
 	random(size) {
@@ -61,7 +66,7 @@ export class Natrium {
 
 	verify(pk, signature, message) {
 		if(!Buffer.isBuffer(pk) || pk.length != this.size.public)
-			return Promise.reject(new Error('secret should be a Buffer of size ' + this.size.public));
+			return Promise.reject(new Error('public key should be a Buffer of size ' + this.size.public));
 
 		if(!Buffer.isBuffer(signature) || signature.length === 0)
 			return Promise.reject(new Error('signature should be a Buffer of a size greater than 0'));
@@ -78,18 +83,63 @@ export class Natrium {
 			});
 		});
 	}
+
+	box_keypair() {
+		return new Promise(function(success, fail) {
+			natrium.box_keypair(function (error, pk, sk) {
+				if(error)
+					return fail(error);
+
+				success({public: pk, secret: sk});
+			});
+		});
+	}
+
+	// secret is own secret key
+	// pk is the someone else's public key
+	box_key(secret, pk) {
+		if(!Buffer.isBuffer(pk) || pk.length != this.size.box_public)
+			return Promise.reject(new Error('public key should be a Buffer of size ' + this.size.box_public));
+
+		if(!Buffer.isBuffer(secret) || secret.length != this.size.box_secret)
+			return Promise.reject(new Error('secret key should be a Buffer of size ' + this.size.box_secret));
+
+		return new Promise(function(success, fail) {
+			natrium.box_key(pk, secret, function (error, key) {
+				if(error)
+					return fail(error);
+
+				success(key);
+			});
+		});
+	}
 }
 
 let na = new Natrium();
 export default na;
 
-let log = console.log;
 
-na.new_sign_keypair().then(function (key) {
-	return na.random(4).then(function (message) {
-		return na.sign(key.secret, message).then(function (signature) {
-			log({message, signature});
-			return na.verify(key.public, signature, message).then(() => log('Verified!'));
+//na.new_sign_keypair().then(function (key) {
+//	return na.random(4).then(function (message) {
+//		return na.sign(key.secret, message).then(function (signature) {
+//			log({message, signature});
+//			return na.verify(key.public, signature, message).then(() => log('Verified!'));
+//		});
+//	});
+//}).catch(log);
+
+na.box_keypair().then(function (alice) {
+	log({alice});
+
+	return na.box_keypair().then(function (bob) {
+		log({bob});
+
+		return na.box_key(alice.secret, bob.public).then(function (key) {
+			log({key});
+		}).then(function () {
+		return na.box_key(bob.secret, alice.public).then(function (key) {
+			log({key});
+		});
 		});
 	});
-}).catch(console.error);
+}).catch(log);
