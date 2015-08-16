@@ -12,7 +12,8 @@
     "build": "make -f node_modules/naio/makefile",
     "babel": "babel natrium.js -o index.js",
     "postinstall": "npm run build",
-	"prepublish": "npm run babel"
+	"prepublish": "npm run babel",
+	"push": "npm run babel && git add . && git commit && git push"
   },
   "repository": {
     "type": "git",
