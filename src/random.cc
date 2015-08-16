@@ -6,17 +6,18 @@ namespace natrium {
 class Random : public Nan::AsyncWorker
 {
 public:
-	Random(Nan::Callback * callback, v8_size_t size): Nan::AsyncWorker(callback), _size(size), _content(nullptr) {}
+	Random(Nan::Callback * callback, v8_size_t size): Nan::AsyncWorker(callback), _size(size) {
+		_content = new char[_size];
+	}
 
 	void Execute() {
-		_content = new char[_size];
 		randombytes_buf(_content, _size);
 	}
 
 	void HandleOKCallback()
 	{
 		Nan::HandleScope scope;
-		v8::Local<v8::Value> argv[] = {Nan::NewBuffer(_content, _size).ToLocalChecked()};
+		v8::Local<v8::Value> argv[] = {NATRIUM_BUFFER(_content, _size)};
 		callback->Call(1, argv);
 	}
 
@@ -27,15 +28,11 @@ protected:
 
 NAN_METHOD(random)
 {
-	v8_size_t size = Nan::To<v8_size_t>(info[0].As<v8::Number>()).FromJust();
-	Nan::Callback * callback = new Nan::Callback(info[1].As<v8::Function>());
-
-	Nan::AsyncQueueWorker(new Random(callback, size));
+	Nan::AsyncQueueWorker(new Random(NATRIUM_CALLBACK(1), NATRIUM_SIZE(0)));
 }
 
 NAN_METHOD(random_seed)
 {
-	Nan::Callback * callback = new Nan::Callback(info[0].As<v8::Function>());
-	Nan::AsyncQueueWorker(new Random(callback, crypto_sign_SEEDBYTES));
+	Nan::AsyncQueueWorker(new Random(NATRIUM_CALLBACK(0), crypto_sign_SEEDBYTES));
 }
 }

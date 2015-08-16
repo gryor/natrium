@@ -11,7 +11,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "make -f node_modules/naio/makefile",
     "babel": "babel natrium.js -o index.js",
-    "postinstall": "npm run build && npm run babel"
+    "postinstall": "npm run build",
+	"prepublish": "npm run babel"
   },
   "repository": {
     "type": "git",
