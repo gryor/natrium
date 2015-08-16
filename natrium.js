@@ -11,7 +11,8 @@ export class Natrium {
 		signature: natrium.size_sign,
 		box_public: natrium.size_box_public,
 		box_secret: natrium.size_box_secret,
-		box_key: natrium.size_box_keyt
+		box_key: natrium.size_box_key,
+		nonce: natrium.size_nonce
 	}
 
 	random(size) {
@@ -122,6 +123,43 @@ export class Natrium {
 			natrium.zero(secret, success);
 		});
 	}
+
+	encrypt(key, message) {
+		if(!Buffer.isBuffer(key) || key.length != this.size.box_key)
+			return Promise.reject(new Error('shared key should be a Buffer of size ' + this.size.box_key));
+
+		if(!Buffer.isBuffer(message) || message.length === 0)
+			return Promise.reject(new Error('message should be a Buffer of size greater than 0'));
+
+		return new Promise(function(success, fail) {
+			natrium.encrypt(key, message, function (error, nonce, cipher) {
+				if(error)
+					return fail(error);
+
+				success({nonce, cipher});
+			});
+		});
+	}
+
+	decrypt(key, nonce, cipher) {
+		if(!Buffer.isBuffer(key) || key.length != this.size.box_key)
+			return Promise.reject(new Error('shared key should be a Buffer of size ' + this.size.box_key));
+
+		if(!Buffer.isBuffer(nonce) || nonce.length != this.size.nonce)
+			return Promise.reject(new Error('nonce should be a Buffer of size ' + this.size.nonce));
+
+		if(!Buffer.isBuffer(cipher) || cipher.length === 0)
+			return Promise.reject(new Error('cipher should be a Buffer of size greater than 0'));
+
+		return new Promise(function(success, fail) {
+			natrium.decrypt(key, nonce, cipher, function (error, message) {
+				if(error)
+					return fail(error);
+
+				success(message);
+			});
+		});
+	}
 }
 
 let na = new Natrium();
@@ -143,11 +181,21 @@ na.box_keypair().then(function (alice) {
 	return na.box_keypair().then(function (bob) {
 		log({bob});
 
-		return na.box_key(alice.secret, bob.public).then(function (key) {
-			log({key});
-		}).then(function () {
-			return na.box_key(bob.secret, alice.public).then(function (key) {
-				log({key});
+		return na.box_key(alice.secret, bob.public).then(function (keya) {
+			log({keya});
+
+		return na.box_key(bob.secret, alice.public).then(function (keyb) {
+			log({keyb});
+
+			return na.random(4).then(function (message) {
+				return na.encrypt(keya, message).then(function (encrypted) {
+					log({message, encrypted});
+
+					return na.decrypt(keyb, encrypted.nonce, encrypted.cipher).then(function (decrypted) {
+						log({message, encrypted, decrypted});
+					});
+				});
+				});
 			});
 		});
 	});

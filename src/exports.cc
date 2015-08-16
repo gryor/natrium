@@ -15,6 +15,8 @@ NAN_MODULE_INIT(Init) {
 	EXPORT(box_keypair);
 	EXPORT(box_key);
 	EXPORT(zero);
+	EXPORT(encrypt);
+	EXPORT(decrypt);
 
 	EXPORT_INT(size_seed, crypto_sign_SEEDBYTES);
 	EXPORT_INT(size_sign_public, crypto_sign_PUBLICKEYBYTES);
@@ -23,6 +25,7 @@ NAN_MODULE_INIT(Init) {
 	EXPORT_INT(size_box_public, crypto_box_PUBLICKEYBYTES);
 	EXPORT_INT(size_box_secret, crypto_box_SECRETKEYBYTES);
 	EXPORT_INT(size_box_key, crypto_box_BEFORENMBYTES);
+	EXPORT_INT(size_nonce, crypto_box_NONCEBYTES);
 }
 
 NODE_MODULE(natrium, Init)

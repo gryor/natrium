@@ -27,6 +27,8 @@ NAN_METHOD(verify);
 NAN_METHOD(box_keypair);
 NAN_METHOD(box_key);
 NAN_METHOD(zero);
+NAN_METHOD(encrypt);
+NAN_METHOD(decrypt);
 }
 
 
