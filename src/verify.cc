@@ -3,7 +3,6 @@
 #include <sodium.h>
 #include "natrium.h"
 
-#include <iostream>
 
 namespace natrium {
 class Verify : public Nan::AsyncWorker
