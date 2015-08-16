@@ -193,6 +193,10 @@ na.box_keypair().then(function (alice) {
 
 						return na.decrypt(keyb, encrypted.nonce, encrypted.cipher).then(function (decrypted) {
 							log({message, encrypted, decrypted});
+							return na.zero(keya)
+							.then(() => na.zero(keyb))
+							.then(() => na.zero(alice.secret))
+							.then(() => na.zero(bob.secret));
 						});
 					});
 				});
