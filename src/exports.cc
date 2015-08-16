@@ -14,6 +14,7 @@ NAN_MODULE_INIT(Init) {
 	EXPORT(verify);
 	EXPORT(box_keypair);
 	EXPORT(box_key);
+	EXPORT(zero);
 
 	EXPORT_INT(size_seed, crypto_sign_SEEDBYTES);
 	EXPORT_INT(size_sign_public, crypto_sign_PUBLICKEYBYTES);

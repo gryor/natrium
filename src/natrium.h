@@ -26,6 +26,7 @@ NAN_METHOD(sign);
 NAN_METHOD(verify);
 NAN_METHOD(box_keypair);
 NAN_METHOD(box_key);
+NAN_METHOD(zero);
 }
 
 

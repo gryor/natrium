@@ -113,6 +113,15 @@ export class Natrium {
 			});
 		});
 	}
+
+	zero(secret) {
+		if(!Buffer.isBuffer(secret) || secret.length === 0)
+			return Promise.reject(new Error('secret should be a Buffer of a size greater than 0'));
+
+		return new Promise(function(success) {
+			natrium.zero(secret, success);
+		});
+	}
 }
 
 let na = new Natrium();

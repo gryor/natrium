@@ -134,6 +134,15 @@ var Natrium = (function () {
 				});
 			});
 		}
+	}, {
+		key: 'zero',
+		value: function zero(secret) {
+			if (!Buffer.isBuffer(secret) || secret.length === 0) return Promise.reject(new Error('secret should be a Buffer of a size greater than 0'));
+
+			return new Promise(function (success) {
+				_buildDebugNode2['default'].zero(secret, success);
+			});
+		}
 	}]);
 
 	return Natrium;
