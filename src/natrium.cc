@@ -1,17 +1,33 @@
 #include <nan.h>
-#include "helloworld.h"
+#include "natrium.h"
 
-using v8::FunctionTemplate;
-using v8::Handle;
-using v8::Object;
+using v8::Function;
+using v8::Local;
 using v8::String;
-using Nan::GetFunction;
+using v8::Value;
+using Nan::AsyncQueueWorker;
+using Nan::AsyncWorker;
+using Nan::Callback;
+using Nan::HandleScope;
 using Nan::New;
-using Nan::Set;
 
-NAN_MODULE_INIT(Init) {
-  Set(target, New<String>("HelloWorld").ToLocalChecked(),
-    GetFunction(New<FunctionTemplate>(HelloWorld)).ToLocalChecked());
+class NatriumWorker : public AsyncWorker
+{
+public:
+	NatriumWorker(Callback * callback): AsyncWorker(callback) {}
+
+	void Execute() {}
+
+	void HandleOKCallback()
+	{
+		HandleScope scope;
+		Local<Value> argv[] = {New<String>("Hello Natrium!").ToLocalChecked()};
+		callback->Call(1, argv);
+	}
+};
+
+NAN_METHOD(msg)
+{
+	Callback * callback = new Callback(info[0].As<Function>());
+	AsyncQueueWorker(new NatriumWorker(callback));
 }
-
-NODE_MODULE(natrium, Init)
