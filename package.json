@@ -1,34 +1,34 @@
 {
-  "name": "natrium",
-  "version": "0.0.1",
-  "description": "libsodium node.js bindings",
-  "main": "index.js",
-  "libraries": [
-    "v8",
-    "sodium"
-  ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "make -f node_modules/naio/makefile",
-    "babel": "babel natrium.js -o index.js",
-    "postinstall": "npm run build",
-	"prepublish": "npm run babel",
-	"push": "npm run babel && git add . && git commit && git push"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/wilhelmmatilainen/natrium.git"
-  },
-  "author": "Wilhelm Matilainen",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/wilhelmmatilainen/natrium/issues"
-  },
-  "homepage": "https://github.com/wilhelmmatilainen/natrium#readme",
-  "dependencies": {
-    "debug": "^2.2.0",
-    "mocha": "^2.2.5",
-    "naio": "0.0.3",
-    "nan": "^2.0.5"
-  }
+	"name": "natrium",
+	"version": "0.0.1",
+	"description": "libsodium node.js bindings",
+	"main": "index.js",
+	"libraries": [
+		"v8",
+		"sodium"
+	],
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "make -f node_modules/naio/makefile",
+		"babel": "babel natrium.js -o index.js",
+		"postinstall": "npm run build",
+		"prepublish": "npm run babel",
+		"push": "npm run babel && git add . && git commit && git push"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/wilhelmmatilainen/natrium.git"
+	},
+	"author": "Wilhelm Matilainen",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/wilhelmmatilainen/natrium/issues"
+	},
+	"homepage": "https://github.com/wilhelmmatilainen/natrium#readme",
+	"dependencies": {
+		"debug": "^2.2.0",
+		"mocha": "^2.2.5",
+		"naio": "0.0.3",
+		"nan": "^2.0.5"
+	}
 }
