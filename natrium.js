@@ -1,7 +1,5 @@
 import natrium from './build/debug.node';
-import debug from 'debug';
 
-let log = debug('natrium');
 
 export class Natrium {
 	size = {
@@ -165,44 +163,3 @@ export class Natrium {
 
 let na = new Natrium();
 export default na;
-
-
-//na.new_sign_keypair().then(function (key) {
-//	return na.random(4).then(function (message) {
-//		return na.sign(key.secret, message).then(function (signature) {
-//			log({message, signature});
-//			return na.verify(key.public, signature, message).then(() => log('Verified!'));
-//		});
-//	});
-//}).catch(log);
-
-na.box_keypair().then(function (alice) {
-	log({alice});
-
-	return na.box_keypair().then(function (bob) {
-		log({bob});
-
-		return na.box_key(alice.secret, bob.public).then(function (keya) {
-			log({keya});
-
-			return na.box_key(bob.secret, alice.public).then(function (keyb) {
-				log({keyb});
-
-				return na.random(4).then(function (message) {
-						log({message});
-					return na.encrypt(keya, message).then(function (encrypted) {
-						log({encrypted});
-
-						return na.decrypt(keyb, encrypted.nonce, encrypted.cipher).then(function (decrypted) {
-							log({decrypted});
-							return na.zero(keya)
-							.then(() => na.zero(keyb))
-							.then(() => na.zero(alice.secret))
-							.then(() => na.zero(bob.secret));
-						});
-					});
-				});
-			});
-		});
-	});
-}).catch(log);
