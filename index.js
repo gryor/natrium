@@ -32,7 +32,8 @@ var Natrium = (function () {
 			box_public: _buildDebugNode2['default'].size_box_public,
 			box_secret: _buildDebugNode2['default'].size_box_secret,
 			box_key: _buildDebugNode2['default'].size_box_key,
-			nonce: _buildDebugNode2['default'].size_nonce
+			nonce: _buildDebugNode2['default'].size_nonce,
+			mac: _buildDebugNode2['default'].size_mac
 		};
 	}
 
@@ -166,7 +167,7 @@ var Natrium = (function () {
 
 			if (!Buffer.isBuffer(nonce) || nonce.length != this.size.nonce) return Promise.reject(new Error('nonce should be a Buffer of size ' + this.size.nonce));
 
-			if (!Buffer.isBuffer(cipher) || cipher.length === 0) return Promise.reject(new Error('cipher should be a Buffer of size greater than 0'));
+			if (!Buffer.isBuffer(cipher) || cipher.length <= this.size.mac) return Promise.reject(new Error('cipher should be a Buffer of size greater than ' + this.size.mac));
 
 			return new Promise(function (success, fail) {
 				_buildDebugNode2['default'].decrypt(key, nonce, cipher, function (error, message) {
@@ -208,11 +209,19 @@ na.box_keypair().then(function (alice) {
 				log({ keyb: keyb });
 
 				return na.random(4).then(function (message) {
+					log({ message: message });
 					return na.encrypt(keya, message).then(function (encrypted) {
-						log({ message: message, encrypted: encrypted });
+						log({ encrypted: encrypted });
 
 						return na.decrypt(keyb, encrypted.nonce, encrypted.cipher).then(function (decrypted) {
-							log({ message: message, encrypted: encrypted, decrypted: decrypted });
+							log({ decrypted: decrypted });
+							return na.zero(keya).then(function () {
+								return na.zero(keyb);
+							}).then(function () {
+								return na.zero(alice.secret);
+							}).then(function () {
+								return na.zero(bob.secret);
+							});
 						});
 					});
 				});

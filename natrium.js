@@ -12,7 +12,8 @@ export class Natrium {
 		box_public: natrium.size_box_public,
 		box_secret: natrium.size_box_secret,
 		box_key: natrium.size_box_key,
-		nonce: natrium.size_nonce
+		nonce: natrium.size_nonce,
+		mac: natrium.size_mac
 	}
 
 	random(size) {
@@ -148,8 +149,8 @@ export class Natrium {
 		if(!Buffer.isBuffer(nonce) || nonce.length != this.size.nonce)
 			return Promise.reject(new Error('nonce should be a Buffer of size ' + this.size.nonce));
 
-		if(!Buffer.isBuffer(cipher) || cipher.length === 0)
-			return Promise.reject(new Error('cipher should be a Buffer of size greater than 0'));
+		if(!Buffer.isBuffer(cipher) || cipher.length <= this.size.mac)
+			return Promise.reject(new Error('cipher should be a Buffer of size greater than ' + this.size.mac));
 
 		return new Promise(function(success, fail) {
 			natrium.decrypt(key, nonce, cipher, function (error, message) {
@@ -188,11 +189,12 @@ na.box_keypair().then(function (alice) {
 				log({keyb});
 
 				return na.random(4).then(function (message) {
+						log({message});
 					return na.encrypt(keya, message).then(function (encrypted) {
-						log({message, encrypted});
+						log({encrypted});
 
 						return na.decrypt(keyb, encrypted.nonce, encrypted.cipher).then(function (decrypted) {
-							log({message, encrypted, decrypted});
+							log({decrypted});
 							return na.zero(keya)
 							.then(() => na.zero(keyb))
 							.then(() => na.zero(alice.secret))

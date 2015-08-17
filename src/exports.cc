@@ -26,6 +26,7 @@ NAN_MODULE_INIT(Init) {
 	EXPORT_INT(size_box_secret, crypto_box_SECRETKEYBYTES);
 	EXPORT_INT(size_box_key, crypto_box_BEFORENMBYTES);
 	EXPORT_INT(size_nonce, crypto_box_NONCEBYTES);
+	EXPORT_INT(size_mac, crypto_box_MACBYTES);
 }
 
 NODE_MODULE(natrium, Init)
