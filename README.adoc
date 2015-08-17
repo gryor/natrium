@@ -10,7 +10,7 @@ npm i --save natrium
 
 == Requirements
 * Build tools
-** G\++ (you can change this to clang++ in node_modules/naio/makefile)
+** G&#43;&#43; (you can change this to clang&#43;&#43; in node_modules/naio/makefile)
 ** Make
 ** Node.js or io.js
 * Libraries
