@@ -12,7 +12,8 @@ npm i --save natrium
 * Build tools
 ** G&#43;&#43; (you can change this to clang&#43;&#43; in node_modules/naio/makefile)
 ** Make
-** Node.js or io.js
+** Node.js/io.js v3.0.0 or newer
+** Npm 3.2.2 or newer
 * Libraries
 ** V8
 ** https://github.com/jedisct1/libsodium[Sodium]
