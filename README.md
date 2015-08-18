@@ -55,8 +55,7 @@ natrium.box_keypair().then(function (alice) {
 
             return natrium.encrypt(key, message).then(function (encrypted) {
                 console.log(encrypted);
-				// <Buffer 79 17 df 17 fb b0 79 12 e2 55 3a c7 19 85 f7 42 f0 45 a7 6b 3f 9e c3 8f 6d 01 31 1c ea 8c 7f 11 49 8b
-				01 d9 1f 7b 21 56 3b 13 a4 80 10 2b 35 29 ef bf ... >
+				// <Buffer 79 17 df 17 fb b0 79 12 e2 55 3a c7 19 85 f7 42 f0 45 a7 6b 3f 9e c3 8f 6d 01 31 1c ea 8c 7f 11 49 8b 01 d9 1f 7b 21 56 3b 13 a4 80 10 2b 35 29 ef bf ... >
 
                 return natrium.decrypt(key, encrypted).then(function (decrypted) {
                     console.log(decrypted);
@@ -77,8 +76,7 @@ natrium.secretbox_key().then(function (key) {
 
 	return natrium.secretbox_encrypt(key, message).then(function (encrypted) {
 		console.log(encrypted);
-		// <Buffer 03 7d 3f d6 27 cc f2 77 4f cf fe 9c 37 0b 84 cd e6 b9 3a f4 5d 85 f4 bf d9 d4 81 ae d2 1f 84 88 5b 78 fd 7a 6d
-		89 5c d4 4c fd 70 7d 8c ec a5 26 29 d6 ... >
+		// <Buffer 03 7d 3f d6 27 cc f2 77 4f cf fe 9c 37 0b 84 cd e6 b9 3a f4 5d 85 f4 bf d9 d4 81 ae d2 1f 84 88 5b 78 fd 7a 6d 89 5c d4 4c fd 70 7d 8c ec a5 26 29 d6 ... >
 
 		return natrium.secretbox_decrypt(key, encrypted).then(function (decrypted) {
 			console.log(decrypted);
