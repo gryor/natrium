@@ -1,38 +1,35 @@
-= Natrium
+# Natrium
 
-https://github.com/jedisct1/libsodium[libsodium] node.js bindings
+[libsodium](https://github.com/jedisct1/libsodium) node.js bindings
 
-== Install
-[source,sh]
-----
+## Install
+```sh
 npm i --save natrium
-----
+```
 
-== Requirements
-* Build tools
-** G&#43;&#43; (you can change this to clang&#43;&#43; in node_modules/naio/makefile)
-** Make
-** Node.js/io.js v3.0.0 or newer
-** Npm 3.2.2 or newer
-* Libraries
-** V8
-** https://github.com/jedisct1/libsodium[Sodium]
+## Requirements
+- Build tools
+  - G++ (you can change this to clang++ in node_modules/naio/makefile)
+  - Make
+  - Node.js/io.js v3.0.0 or newer
+  - Npm 3.2.2 or newer
+- Libraries
+  - V8
+  - [Sodium](https://github.com/jedisct1/libsodium)
 
-*Building the native module tested only on Linux*
+**Building the native module tested only on Linux**
 
-== Usage
+## Usage
 
-=== Import / Require
-[source,js]
-----
+### Import / Require
+```js
 import natrium from 'natrium';
 // OR
 var natrium = require('natrium').default;
-----
+```
 
-=== Random buffers
-[source,js]
-----
+### Random buffers
+```js
 // Generate a random buffer
 natrium.random(16).then(console.log);
 // <Buffer fa 17 e8 b5 bb e5 72 6b 9d 41 ec 3a 91 97 07 f4>
@@ -40,11 +37,10 @@ natrium.random(16).then(console.log);
 // Generate a random buffer with the correct size for a signature seed
 natrium.random_seed().then(console.log);
 // <Buffer dc 0e 74 90 54 43 10 55 ea 21 96 6c a5 9b 16 59 71 e5 77 e2 ca 04 02 af 05 ed 98 93 29 32 d2 a1>
-----
+```
 
-=== Encrypt & Decrypt
-[source,js]
-----
+### Encrypt & Decrypt
+```js
 natrium.box_keypair().then(function (alice) {
     return natrium.box_keypair().then(function (bob) {
         // This generates a shared key, which is the exact same both ways
@@ -72,11 +68,10 @@ natrium.box_keypair().then(function (alice) {
         });
     });
 });
-----
+```
 
-=== Sign & Verify
-[source,js]
-----
+### Sign & Verify
+```js
 natrium.new_sign_keypair().then(function (key) {
     // NOTICE key.seed can be saved and later passed
     // to natrium.sign_keypair(key.seed) to generate
@@ -96,4 +91,4 @@ natrium.new_sign_keypair().then(function (key) {
         });
     });
 });
-----
+```
