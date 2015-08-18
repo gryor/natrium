@@ -82,7 +82,7 @@ natrium.new_sign_keypair().then(function (key) {
     // <Buffer 49 27 6d 20 74 68 65 20 52 4f 4f 54 2e 2e 2e 20 74 72 75 73 74 20 6d 65 2e>
 
     return natrium.sign(key.secret, message).then(function (signature) {
-        console.log(message);
+        console.log(signature);
         // <Buffer 66 5a e8 dc 25 90 e6 ba 3a 75 2e 7a d9 8f 80 8f d1 dd 3a f1 b3 fb 20 90 13 82 3a a8 74 47 aa 20 d5 77 f8 4b 83 5f 15 cc 5f fc 20 66 af ea 11 c5 1f c3 ... >
 
         return natrium.verify(key.public, signature, message).then(function() {
