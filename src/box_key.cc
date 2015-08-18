@@ -1,4 +1,4 @@
-#include <nan.h>
+#include <nan/nan.h>
 #include <node.h>
 #include <sodium.h>
 #include "natrium.h"

@@ -2,7 +2,7 @@
 #define NATRIUM_H_UHSJFE2Y
 
 
-#include <nan.h>
+#include <nan/nan.h>
 #include <stdint.h>
 
 #ifndef NAN_TEXT

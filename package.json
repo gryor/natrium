@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "test": "mocha --compilers js:babel/register",
-    "build": "make -f node_modules/naio/makefile",
+    "build": "make -f ../naio/makefile",
+    "build:dev": "make -f node_modules/naio/makefile",
     "babel": "babel natrium.js -o index.js",
     "postinstall": "npm run build",
     "prepublish": "npm run babel",
@@ -26,7 +27,7 @@
   },
   "homepage": "https://github.com/wilhelmmatilainen/natrium#readme",
   "dependencies": {
-    "naio": "0.0.3",
+    "naio": "^0.0.4",
     "nan": "^2.0.5"
   },
   "devDependencies": {
