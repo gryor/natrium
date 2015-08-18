@@ -55,12 +55,10 @@ natrium.box_keypair().then(function (alice) {
 
             return natrium.encrypt(key, message).then(function (encrypted) {
                 console.log(encrypted);
-                // {
-                //  nonce: <Buffer 95 34 80 96 60 51 28 66 31 b6 c8 31 f6 48 4e 7c 05 a5 ce c8 b2 6c 04 91>,
-                //  cipher: <Buffer 27 cb 57 16 b2 5c 7e 8d 51 0a c3 6c 62 c5 fc bb b7 11 3b fb a1 d2 a4 3f 91 95 86 9b 19 4a 0f 94 d0 87 94 a8 c3 25 a9>
-                // }
+				// <Buffer 79 17 df 17 fb b0 79 12 e2 55 3a c7 19 85 f7 42 f0 45 a7 6b 3f 9e c3 8f 6d 01 31 1c ea 8c 7f 11 49 8b
+				01 d9 1f 7b 21 56 3b 13 a4 80 10 2b 35 29 ef bf ... >
 
-                return natrium.decrypt(key, encrypted.nonce, encrypted.cipher).then(function (decrypted) {
+                return natrium.decrypt(key, encrypted).then(function (decrypted) {
                     console.log(decrypted);
                     // <Buffer 44 72 6f 70 20 6d 65 20 66 72 6f 6d 20 74 68 65 20 73 70 61 63 65 21>
                 });
@@ -79,12 +77,10 @@ natrium.secretbox_key().then(function (key) {
 
 	return natrium.secretbox_encrypt(key, message).then(function (encrypted) {
 		console.log(encrypted);
-		// {
-		// nonce: <Buffer 47 16 1e 99 76 d6 55 e6 c4 7f f0 05 bb 49 e6 9c 75 47 17 7a 00 d9 bc 33>,
-		// cipher: <Buffer 9f 5d 5c 3d f4 ef 8e 05 de d0 ca cd eb 16 43 4a ad 21 36 62 11 aa ec 2d c6 94 22 4d 41 05 31 21 ae 45 8b 1c 84 ff a1>
-		// }
+		// <Buffer 03 7d 3f d6 27 cc f2 77 4f cf fe 9c 37 0b 84 cd e6 b9 3a f4 5d 85 f4 bf d9 d4 81 ae d2 1f 84 88 5b 78 fd 7a 6d
+		89 5c d4 4c fd 70 7d 8c ec a5 26 29 d6 ... >
 
-		return natrium.secretbox_decrypt(key, encrypted.nonce, encrypted.cipher).then(function (decrypted) {
+		return natrium.secretbox_decrypt(key, encrypted).then(function (decrypted) {
 			console.log(decrypted);
 			// <Buffer 44 72 6f 70 20 6d 65 20 66 72 6f 6d 20 74 68 65 20 73 70 61 63 65 21>
 		});

@@ -158,11 +158,8 @@ describe('Natrium', function() {
 						return natrium.box_key(alice.secret, bob.public).then(function (key) {
 							return natrium.random(64).then(function (message) {
 								return natrium.encrypt(key, message).then(function (encrypted) {
-									expect(encrypted.nonce instanceof Buffer).to.equal(true);
-									expect(encrypted.nonce.length).to.equal(natrium.size.box_nonce);
-
-									expect(encrypted.cipher instanceof Buffer).to.equal(true);
-									expect(encrypted.cipher.length).to.equal(natrium.size.box_mac + message.length);
+									expect(encrypted instanceof Buffer).to.equal(true);
+									expect(encrypted.length).to.equal(natrium.size.box_nonce + natrium.size.box_mac + message.length);
 								});
 							});
 						});
@@ -178,7 +175,7 @@ describe('Natrium', function() {
 						return natrium.box_key(alice.secret, bob.public).then(function (key) {
 							return natrium.random(64).then(function (message) {
 								return natrium.encrypt(key, message).then(function (encrypted) {
-									return natrium.decrypt(key, encrypted.nonce, encrypted.cipher).then(function (decrypted) {
+									return natrium.decrypt(key, encrypted).then(function (decrypted) {
 										expect(decrypted instanceof Buffer).to.equal(true);
 										expect(decrypted.length).to.equal(message.length);
 										expect(decrypted.equals(message)).to.equal(true);
@@ -205,11 +202,8 @@ describe('Natrium', function() {
 				return natrium.secretbox_key().then(function (key) {
 					return natrium.random(64).then(function (message) {
 						return natrium.secretbox_encrypt(key, message).then(function (encrypted) {
-							expect(encrypted.nonce instanceof Buffer).to.equal(true);
-							expect(encrypted.nonce.length).to.equal(natrium.size.box_nonce);
-
-							expect(encrypted.cipher instanceof Buffer).to.equal(true);
-							expect(encrypted.cipher.length).to.equal(natrium.size.box_mac + message.length);
+							expect(encrypted instanceof Buffer).to.equal(true);
+							expect(encrypted.length).to.equal(natrium.size.box_nonce + natrium.size.box_mac + message.length);
 						});
 					});
 				});
@@ -221,7 +215,7 @@ describe('Natrium', function() {
 				return natrium.secretbox_key().then(function (key) {
 					return natrium.random(64).then(function (message) {
 						return natrium.secretbox_encrypt(key, message).then(function (encrypted) {
-							return natrium.secretbox_decrypt(key, encrypted.nonce, encrypted.cipher).then(function (decrypted) {
+							return natrium.secretbox_decrypt(key, encrypted).then(function (decrypted) {
 								expect(decrypted instanceof Buffer).to.equal(true);
 								expect(decrypted.length).to.equal(message.length);
 								expect(decrypted.equals(message)).to.equal(true);

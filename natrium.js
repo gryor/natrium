@@ -134,27 +134,24 @@ export class Natrium {
 			return Promise.reject(new Error('message should be a Buffer of size greater than 0'));
 
 		return new Promise(function(success, fail) {
-			natrium.encrypt(key, message, function (error, nonce, cipher) {
+			natrium.encrypt(key, message, function (error, cipher) {
 				if(error)
 					return fail(error);
 
-				success({nonce, cipher});
+				success(cipher);
 			});
 		});
 	}
 
-	decrypt(key, nonce, cipher) {
+	decrypt(key, cipher) {
 		if(!Buffer.isBuffer(key) || key.length != this.size.box_key)
 			return Promise.reject(new Error('shared key should be a Buffer of size ' + this.size.box_key));
 
-		if(!Buffer.isBuffer(nonce) || nonce.length != this.size.box_nonce)
-			return Promise.reject(new Error('nonce should be a Buffer of size ' + this.size.box_nonce));
-
-		if(!Buffer.isBuffer(cipher) || cipher.length <= this.size.box_mac)
-			return Promise.reject(new Error('cipher should be a Buffer of size greater than ' + this.size.box_mac));
+		if(!Buffer.isBuffer(cipher) || cipher.length <= (this.size.box_nonce + this.size.box_mac))
+			return Promise.reject(new Error('cipher should be a Buffer of size greater than ' + (this.size.box_nonce + this.size.box_mac)));
 
 		return new Promise(function(success, fail) {
-			natrium.decrypt(key, nonce, cipher, function (error, message) {
+			natrium.decrypt(key, cipher, function (error, message) {
 				if(error)
 					return fail(error);
 
@@ -177,27 +174,24 @@ export class Natrium {
 			return Promise.reject(new Error('message should be a Buffer of size greater than 0'));
 
 		return new Promise(function(success, fail) {
-			natrium.secretbox_encrypt(key, message, function (error, nonce, cipher) {
+			natrium.secretbox_encrypt(key, message, function (error, cipher) {
 				if(error)
 					return fail(error);
 
-				success({nonce, cipher});
+				success(cipher);
 			});
 		});
 	}
 
-	secretbox_decrypt(key, nonce, cipher) {
+	secretbox_decrypt(key, cipher) {
 		if(!Buffer.isBuffer(key) || key.length != this.size.secretbox_key)
 			return Promise.reject(new Error('shared key should be a Buffer of size ' + this.size.secretbox_key));
 
-		if(!Buffer.isBuffer(nonce) || nonce.length != this.size.secretbox_nonce)
-			return Promise.reject(new Error('nonce should be a Buffer of size ' + this.size.secretbox_nonce));
-
-		if(!Buffer.isBuffer(cipher) || cipher.length <= this.size.mac)
-			return Promise.reject(new Error('cipher should be a Buffer of size greater than ' + this.size.secretbox_mac));
+		if(!Buffer.isBuffer(cipher) || cipher.length <= (this.size.secretbox_nonce + this.size.secretbox_mac))
+			return Promise.reject(new Error('cipher should be a Buffer of size greater than ' + (this.size.secretbox_nonce + this.size.secretbox_mac)));
 
 		return new Promise(function(success, fail) {
-			natrium.decrypt(key, nonce, cipher, function (error, message) {
+			natrium.decrypt(key, cipher, function (error, message) {
 				if(error)
 					return fail(error);
 
