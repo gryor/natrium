@@ -26,6 +26,29 @@
     "url": "https://github.com/wilhelmmatilainen/natrium/issues"
   },
   "homepage": "https://github.com/wilhelmmatilainen/natrium#readme",
+  "keywords": [
+	  "sodium",
+	  "libsodium",
+	  "nacl",
+	  "curve25519",
+	  "chacha20",
+	  "salsa20",
+	  "xsalsa20",
+	  "poly1305",
+	  "blake2",
+	  "crypt",
+	  "crypto",
+	  "encrypt",
+	  "encryption",
+	  "decrypt",
+	  "decryption",
+	  "sign",
+	  "signature",
+	  "verify",
+	  "secure",
+	  "security",
+	  "native"
+  ],
   "dependencies": {
     "naio": "^0.0.4",
     "nan": "^2.0.5"
