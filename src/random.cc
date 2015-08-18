@@ -36,4 +36,9 @@ NAN_METHOD(random_seed)
 {
 	Nan::AsyncQueueWorker(new Random(NATRIUM_CALLBACK(0), crypto_sign_SEEDBYTES));
 }
+
+NAN_METHOD(secretbox_key)
+{
+	Nan::AsyncQueueWorker(new Random(NATRIUM_CALLBACK(0), crypto_secretbox_KEYBYTES));
+}
 }

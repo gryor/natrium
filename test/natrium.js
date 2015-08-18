@@ -159,10 +159,10 @@ describe('Natrium', function() {
 							return natrium.random(64).then(function (message) {
 								return natrium.encrypt(key, message).then(function (encrypted) {
 									expect(encrypted.nonce instanceof Buffer).to.equal(true);
-									expect(encrypted.nonce.length).to.equal(natrium.size.nonce);
+									expect(encrypted.nonce.length).to.equal(natrium.size.box_nonce);
 
 									expect(encrypted.cipher instanceof Buffer).to.equal(true);
-									expect(encrypted.cipher.length).to.equal(natrium.size.mac + message.length);
+									expect(encrypted.cipher.length).to.equal(natrium.size.box_mac + message.length);
 								});
 							});
 						});
@@ -190,48 +190,46 @@ describe('Natrium', function() {
 				});
 			});
 		});
+
+		describe('secretbox_key', function() {
+			it('Generates a secretbox key', function() {
+				return natrium.secretbox_key().then(function (key) {
+					expect(key instanceof Buffer).to.equal(true);
+					expect(key.length).to.equal(natrium.size.secretbox_key);
+				});
+			});
+		});
+
+		describe('secretbox_encrypt', function() {
+			it('Generates a cipher and a nonce from a message', function() {
+				return natrium.secretbox_key().then(function (key) {
+					return natrium.random(64).then(function (message) {
+						return natrium.secretbox_encrypt(key, message).then(function (encrypted) {
+							expect(encrypted.nonce instanceof Buffer).to.equal(true);
+							expect(encrypted.nonce.length).to.equal(natrium.size.box_nonce);
+
+							expect(encrypted.cipher instanceof Buffer).to.equal(true);
+							expect(encrypted.cipher.length).to.equal(natrium.size.box_mac + message.length);
+						});
+					});
+				});
+			});
+		});
+
+		describe('secretbox_decrypt', function() {
+			it('Decrypts a cipher and a nonce to a message', function() {
+				return natrium.secretbox_key().then(function (key) {
+					return natrium.random(64).then(function (message) {
+						return natrium.secretbox_encrypt(key, message).then(function (encrypted) {
+							return natrium.secretbox_decrypt(key, encrypted.nonce, encrypted.cipher).then(function (decrypted) {
+								expect(decrypted instanceof Buffer).to.equal(true);
+								expect(decrypted.length).to.equal(message.length);
+								expect(decrypted.equals(message)).to.equal(true);
+							});
+						});
+					});
+				});
+			});
+		});
 	});
 });
-
-
-
-
-//na.new_sign_keypair().then(function (key) {
-//	return na.random(4).then(function (message) {
-//		return na.sign(key.secret, message).then(function (signature) {
-//			log({message, signature});
-//			return na.verify(key.public, signature, message).then(() => log('Verified!'));
-//		});
-//	});
-//}).catch(log);
-
-//na.box_keypair().then(function (alice) {
-//	log({alice});
-//
-//	return na.box_keypair().then(function (bob) {
-//		log({bob});
-//
-//		return na.box_key(alice.secret, bob.public).then(function (keya) {
-//			log({keya});
-//
-//			return na.box_key(bob.secret, alice.public).then(function (keyb) {
-//				log({keyb});
-//
-//				return na.random(4).then(function (message) {
-//						log({message});
-//					return na.encrypt(keya, message).then(function (encrypted) {
-//						log({encrypted});
-//
-//						return na.decrypt(keyb, encrypted.nonce, encrypted.cipher).then(function (decrypted) {
-//							log({decrypted});
-//							return na.zero(keya)
-//							.then(() => na.zero(keyb))
-//							.then(() => na.zero(alice.secret))
-//							.then(() => na.zero(bob.secret));
-//						});
-//					});
-//				});
-//			});
-//		});
-//	});
-//}).catch(log);

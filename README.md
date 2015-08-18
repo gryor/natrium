@@ -70,6 +70,28 @@ natrium.box_keypair().then(function (alice) {
 });
 ```
 
+### Secret key // Encrypt & Decrypt
+```js
+natrium.secretbox_key().then(function (key) {
+	let message = new Buffer('Drop me from the space!');
+	console.log(message);
+	// <Buffer 44 72 6f 70 20 6d 65 20 66 72 6f 6d 20 74 68 65 20 73 70 61 63 65 21>
+
+	return natrium.secretbox_encrypt(key, message).then(function (encrypted) {
+		console.log(encrypted);
+		// {
+		// nonce: <Buffer 47 16 1e 99 76 d6 55 e6 c4 7f f0 05 bb 49 e6 9c 75 47 17 7a 00 d9 bc 33>,
+		// cipher: <Buffer 9f 5d 5c 3d f4 ef 8e 05 de d0 ca cd eb 16 43 4a ad 21 36 62 11 aa ec 2d c6 94 22 4d 41 05 31 21 ae 45 8b 1c 84 ff a1>
+		// }
+
+		return natrium.secretbox_decrypt(key, encrypted.nonce, encrypted.cipher).then(function (decrypted) {
+			console.log(decrypted);
+			// <Buffer 44 72 6f 70 20 6d 65 20 66 72 6f 6d 20 74 68 65 20 73 70 61 63 65 21>
+		});
+	});
+});
+```
+
 ### Sign & Verify
 ```js
 natrium.new_sign_keypair().then(function (key) {

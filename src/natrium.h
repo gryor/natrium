@@ -29,6 +29,9 @@ NAN_METHOD(box_key);
 NAN_METHOD(zero);
 NAN_METHOD(encrypt);
 NAN_METHOD(decrypt);
+NAN_METHOD(secretbox_key);
+NAN_METHOD(secretbox_encrypt);
+NAN_METHOD(secretbox_decrypt);
 }
 
 
