@@ -17,7 +17,7 @@ describe('Natrium', function() {
 			it('Generated random buffer has the size of a signature seed', function() {
 				return natrium.random_seed().then(function(buffer) {
 					expect(buffer instanceof Buffer).to.equal(true);
-					expect(buffer.length).to.equal(natrium.size.seed);
+					expect(buffer.length).to.equal(natrium.size.sign_seed);
 				});
 			});
 		});
@@ -41,13 +41,13 @@ describe('Natrium', function() {
 			it('Generates a keypair and a seed', function() {
 				return natrium.new_sign_keypair().then(function (key) {
 					expect(key.public instanceof Buffer).to.equal(true);
-					expect(key.public.length).to.equal(natrium.size.public);
+					expect(key.public.length).to.equal(natrium.size.sign_public);
 
 					expect(key.secret instanceof Buffer).to.equal(true);
-					expect(key.secret.length).to.equal(natrium.size.secret);
+					expect(key.secret.length).to.equal(natrium.size.sign_secret);
 
 					expect(key.seed instanceof Buffer).to.equal(true);
-					expect(key.seed.length).to.equal(natrium.size.seed);
+					expect(key.seed.length).to.equal(natrium.size.sign_seed);
 				});
 			});
 		});
@@ -57,13 +57,13 @@ describe('Natrium', function() {
 				return natrium.random_seed().then(function (seed) {
 					return natrium.sign_keypair(seed).then(function (key) {
 						expect(key.public instanceof Buffer).to.equal(true);
-						expect(key.public.length).to.equal(natrium.size.public);
+						expect(key.public.length).to.equal(natrium.size.sign_public);
 
 						expect(key.secret instanceof Buffer).to.equal(true);
-						expect(key.secret.length).to.equal(natrium.size.secret);
+						expect(key.secret.length).to.equal(natrium.size.sign_secret);
 
 						expect(key.seed instanceof Buffer).to.equal(true);
-						expect(key.seed.length).to.equal(natrium.size.seed);
+						expect(key.seed.length).to.equal(natrium.size.sign_seed);
 					});
 				});
 			});

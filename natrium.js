@@ -3,9 +3,9 @@ import natrium from './build/debug.node';
 
 export class Natrium {
 	size = {
-		public: natrium.size_sign_public,
-		secret: natrium.size_sign_secret,
-		seed: natrium.size_seed,
+		sign_public: natrium.size_sign_public,
+		sign_secret: natrium.size_sign_secret,
+		sign_seed: natrium.size_sign_seed,
 		signature: natrium.size_sign,
 		box_public: natrium.size_box_public,
 		box_secret: natrium.size_box_secret,
@@ -33,8 +33,8 @@ export class Natrium {
 	}
 
 	sign_keypair(seed) {
-		if(!Buffer.isBuffer(seed) || seed.length != this.size.seed)
-			return Promise.reject(new Error('seed should be a Buffer of size ' + this.size.seed));
+		if(!Buffer.isBuffer(seed) || seed.length != this.size.sign_seed)
+			return Promise.reject(new Error('seed should be a Buffer of size ' + this.size.sign_seed));
 
 		return new Promise(function(success, fail) {
 			natrium.sign_keypair(seed, function (error, pk, sk) {
@@ -51,8 +51,8 @@ export class Natrium {
 	}
 
 	sign(secret, message) {
-		if(!Buffer.isBuffer(secret) || secret.length != this.size.secret)
-			return Promise.reject(new Error('secret should be a Buffer of size ' + this.size.secret));
+		if(!Buffer.isBuffer(secret) || secret.length != this.size.sign_secret)
+			return Promise.reject(new Error('secret should be a Buffer of size ' + this.size.sign_secret));
 
 		if(!Buffer.isBuffer(message) || message.length === 0)
 			return Promise.reject(new Error('message should be a Buffer of a size greater than 0'));
@@ -68,8 +68,8 @@ export class Natrium {
 	}
 
 	verify(pk, signature, message) {
-		if(!Buffer.isBuffer(pk) || pk.length != this.size.public)
-			return Promise.reject(new Error('public key should be a Buffer of size ' + this.size.public));
+		if(!Buffer.isBuffer(pk) || pk.length != this.size.sign_public)
+			return Promise.reject(new Error('public key should be a Buffer of size ' + this.size.sign_public));
 
 		if(!Buffer.isBuffer(signature) || signature.length === 0)
 			return Promise.reject(new Error('signature should be a Buffer of a size greater than 0'));
