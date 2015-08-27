@@ -2,6 +2,8 @@
 
 [libsodium](https://github.com/jedisct1/libsodium) node.js bindings
 
+#### [Browser version - link](https://github.com/wilhelmmatilainen/natrium-browser)
+
 ## Install
 ```sh
 npm i --save natrium
