@@ -19,9 +19,9 @@ var Natrium = (function () {
 		_classCallCheck(this, Natrium);
 
 		this.size = {
-			'public': _buildDebugNode2['default'].size_sign_public,
-			secret: _buildDebugNode2['default'].size_sign_secret,
-			seed: _buildDebugNode2['default'].size_seed,
+			sign_public: _buildDebugNode2['default'].size_sign_public,
+			sign_secret: _buildDebugNode2['default'].size_sign_secret,
+			sign_seed: _buildDebugNode2['default'].size_sign_seed,
 			signature: _buildDebugNode2['default'].size_sign,
 			box_public: _buildDebugNode2['default'].size_box_public,
 			box_secret: _buildDebugNode2['default'].size_box_secret,
@@ -53,7 +53,7 @@ var Natrium = (function () {
 	}, {
 		key: 'sign_keypair',
 		value: function sign_keypair(seed) {
-			if (!Buffer.isBuffer(seed) || seed.length != this.size.seed) return Promise.reject(new Error('seed should be a Buffer of size ' + this.size.seed));
+			if (!Buffer.isBuffer(seed) || seed.length != this.size.sign_seed) return Promise.reject(new Error('seed should be a Buffer of size ' + this.size.sign_seed));
 
 			return new Promise(function (success, fail) {
 				_buildDebugNode2['default'].sign_keypair(seed, function (error, pk, sk) {
@@ -75,7 +75,7 @@ var Natrium = (function () {
 	}, {
 		key: 'sign',
 		value: function sign(secret, message) {
-			if (!Buffer.isBuffer(secret) || secret.length != this.size.secret) return Promise.reject(new Error('secret should be a Buffer of size ' + this.size.secret));
+			if (!Buffer.isBuffer(secret) || secret.length != this.size.sign_secret) return Promise.reject(new Error('secret should be a Buffer of size ' + this.size.sign_secret));
 
 			if (!Buffer.isBuffer(message) || message.length === 0) return Promise.reject(new Error('message should be a Buffer of a size greater than 0'));
 
@@ -90,7 +90,7 @@ var Natrium = (function () {
 	}, {
 		key: 'verify',
 		value: function verify(pk, signature, message) {
-			if (!Buffer.isBuffer(pk) || pk.length != this.size['public']) return Promise.reject(new Error('public key should be a Buffer of size ' + this.size['public']));
+			if (!Buffer.isBuffer(pk) || pk.length != this.size.sign_public) return Promise.reject(new Error('public key should be a Buffer of size ' + this.size.sign_public));
 
 			if (!Buffer.isBuffer(signature) || signature.length === 0) return Promise.reject(new Error('signature should be a Buffer of a size greater than 0'));
 
