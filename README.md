@@ -30,6 +30,17 @@ import natrium from 'natrium';
 var natrium = require('natrium').default;
 ```
 
+### Await the promises!!
+The examples below demonstrate the usage with promises.
+With ecmascript 7, you can await the promises to get the result as in synchronous code.
+This works for all the code below. To use the await keyword, it must be contained inside an async function.
+```js
+// Generate a random buffer
+let random = await natrium.random(16);
+console.log(random);
+// <Buffer fa 17 e8 b5 bb e5 72 6b 9d 41 ec 3a 91 97 07 f4>
+```
+
 ### Random buffers
 ```js
 // Generate a random buffer
