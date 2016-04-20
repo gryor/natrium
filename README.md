@@ -11,7 +11,7 @@ npm i --save natrium
 
 ## Requirements
 - Build tools
-  - G++ (you can change this to clang++ in node_modules/naio/makefile)
+  - GNU C++
   - Make
   - Node.js/io.js v3.0.0 or newer
   - Npm 3.2.2 or newer
