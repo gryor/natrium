@@ -1,4 +1,4 @@
-import natrium from './build/debug.node';
+import natrium from './build/lib/natrium.node';
 
 
 export class Natrium {
