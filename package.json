@@ -95,7 +95,8 @@
     "search": {
       "includes": [
         "/usr/include/node",
-        "node_modules"
+        "node_modules",
+		".."
       ]
     },
     "options": {
