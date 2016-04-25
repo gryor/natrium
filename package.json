@@ -1,6 +1,6 @@
 {
   "name": "natrium",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "libsodium node.js bindings",
   "main": "index.js",
   "libraries": [
@@ -96,7 +96,7 @@
       "includes": [
         "/usr/include/node",
         "node_modules",
-		".."
+        ".."
       ]
     },
     "options": {
